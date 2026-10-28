@@ -1,0 +1,38 @@
+{
+  "syringe_profile": "hsw_norm_ject_10ml",
+  "viscosity_pa_s": 0.00089,
+  "ambient_temperature_c": 25.0,
+  "tube_length_m": 0.5,
+  "tube_radius_m": 0.00015,
+  "transport_volume_ul": 35.34291735288517,
+  "mixing_volume_ul": 30.0,
+  "pump_tau_s": 1.0,
+  "pressure_tau_s": 0.5,
+  "integration_step_s": 0.1,
+  "syringe_capacity_ul": 10000.0,
+  "max_flow_ul_min": 1000.0,
+  "max_total_flow_ul_min": 1500.0,
+  "pressure_trip_kpa": 60.0,
+  "pressure_reset_kpa": 5.0,
+  "pressure_sensor_span_kpa": 100.0,
+  "pressure_noise_kpa": 0.08,
+  "temperature_noise_c": 0.03,
+  "camera_noise_rgb": 0.6,
+  "calibration_sd": 0.02,
+  "camera_replicates": 5,
+  "dye_a_od": [
+    0.05,
+    0.45,
+    1.4
+  ],
+  "dye_b_od": [
+    1.5,
+    0.4,
+    0.08
+  ],
+  "white_rgb": [
+    245.0,
+    245.0,
+    245.0
+  ]
+}

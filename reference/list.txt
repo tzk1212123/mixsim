@@ -1,0 +1,26 @@
+Test Design Methods
+
+1. Equivalence Partitioning
+   Choose a representative input from each group.
+   Example: valid flow, negative flow, excessive flow, and invalid data type.
+
+2. Boundary Value Analysis
+   Test values just below, at, and just above a limit.
+   Example: 999, 1000, and 1001 uL/min for a project limit of 1000 uL/min.
+
+3. State Transition Testing
+   Check state changes after actions or faults.
+   Example: pumping -> overpressure trip -> stopped with interlock latched.
+   Check that pumping can resume only after safe recovery and explicit reset.
+
+Method reference: ISTQB CTFL Syllabus v4.0.1, Sections 4.2.1, 4.2.2, and 4.2.4.
+https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf
+
+Software testing standard: ISO/IEC/IEEE 29119-4:2021.
+https://www.iso.org/standard/79430.html
+
+The examples above are planned simulator checks. Project limits are assumptions,
+not manufacturer specifications.
+
+NE-1000 Device Reference
+https://www.syringepump.com/NE-1000.php

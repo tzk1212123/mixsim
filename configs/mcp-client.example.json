@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mixsim": {
+      "command": "C:/Users/34477/Desktop/intership/.venv/Scripts/python.exe",
+      "args": ["-m", "mixsim", "mcp", "--url", "http://127.0.0.1:8765"]
+    }
+  }
+}
