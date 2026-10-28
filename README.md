@@ -16,7 +16,7 @@ Alternatively, in PowerShell from this directory:
 
 Use `--port 8766` if the default port is occupied. Only one server can bind a port. The server listens on loopback only; Ctrl+C stops it. Refreshing the dashboard preserves the current server session.
 
-Manual controls and the safety/event log expand on demand.
+Manual flow controls are shown first. Automatic baseline controls and the safety/event log expand on demand. The dashboard defaults to one automatic exploration trial (plus a final replicate). Manual Run trial always performs one trial. After finalization, the run button reads New session to run: export existing results, click to create a new session, then run again.
 
 ## Try two demonstrations
 

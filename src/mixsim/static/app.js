@@ -17,8 +17,11 @@ async function refresh(){
 }
 function lockUI(){
   const completed=Boolean(state?.final_record);
-  ['new','step','run','write','manual','clog','clear','reset','advance','best','finalize'].forEach(id=>$(id).disabled=busy||running);
-  ['step','run','manual','best','finalize'].forEach(id=>{if(completed)$(id).disabled=true;});
+  ['new','step','run','write','manual','clog','clear','reset','advance','best','finalize'].forEach(id=>$(id).disabled=busy||running||!state);
+  ['step','best','finalize'].forEach(id=>{if(completed)$(id).disabled=true;});
+  $('manual').textContent=completed?'New session to run':'▶ Run trial';
+  $('run').textContent=completed?'New session to run':'▶ Run campaign';
+  $('session-hint').textContent=completed?'Complete · export results before starting a new session.':'';
   if(!state?.records.some(r=>r.kind==='trial'&&r.status==='ok'))$('best').disabled=true;
   if(!state?.recommendation)$('finalize').disabled=true;
   document.querySelectorAll('.record-pick').forEach(b=>b.disabled=busy||running||completed);
@@ -75,11 +78,16 @@ function chart(){
   }else{ctx.fillStyle='#98a89f';ctx.textAlign='center';ctx.fillText('No data',w/2,h/2);ctx.textAlign='left';}
 }
 function baselineParams(){return{planner:$('planner').value,total_ul_min:validNumber('total'),settle_s:validNumber('settle')};}
+function newSession(){return action('new_session',{seed:validNumber('seed'),target_fraction:validNumber('target')/100});}
+function updateManualTotal(){const a=$('flow-a').value,b=$('flow-b').value;const sum=Number(a)+Number(b);$('manual-total').textContent=a.trim()&&b.trim()&&Number.isFinite(sum)?fmt(sum,2).replace(/\.?0+$/,''):'—';}
+['flow-a','flow-b'].forEach(id=>$(id).addEventListener('input',updateManualTotal));
+updateManualTotal();
 $('target').addEventListener('input',()=>$('target-label').textContent=$('target').value+'%');
-$('new').addEventListener('click',()=>perform(()=>action('new_session',{seed:validNumber('seed'),target_fraction:validNumber('target')/100}),'New session created'));
+$('new').addEventListener('click',()=>perform(newSession,'New session created'));
 $('step').addEventListener('click',()=>perform(async()=>{const r=await action('baseline_step',baselineParams());if(r.status==='aborted')throw Error('Run aborted: '+r.interlock);}));
 $('run').addEventListener('click',async()=>{
   if(running||busy)return;
+  if(state?.final_record){await perform(newSession,'New session ready · click Run campaign');return;}
   let count,params;try{count=validNumber('trials');params=baselineParams();if(!Number.isInteger(count)||count<1||count>20)throw Error('Trial budget must be an integer from 1 to 20');}catch(e){toast(e.message,true);return;}
   running=true;lockUI();let completed=false;
   try{for(let i=0;i<count&&running;i++){const result=await action('baseline_step',params);await refresh();if(result.status!=='ok')throw Error('Interlock triggered: '+result.interlock);await new Promise(resolve=>setTimeout(resolve,500));}
@@ -89,7 +97,10 @@ $('run').addEventListener('click',async()=>{
 });
 $('stop').addEventListener('click',async()=>{running=false;try{await action('stop');toast('Both virtual pumps stopped');}catch(e){toast(e.message,true);}await refresh();});
 $('write').addEventListener('click',()=>perform(()=>action('set_flows',{a_ul_min:validNumber('flow-a'),b_ul_min:validNumber('flow-b')}),'Flows set · advance time to start'));
-$('manual').addEventListener('click',()=>perform(async()=>{const result=await action('experiment',{a_ul_min:validNumber('flow-a'),b_ul_min:validNumber('flow-b'),settle_s:validNumber('settle'),label:'Manual trial'});if(result.status!=='ok')throw Error('Interlock triggered: '+result.interlock);}));
+$('manual').addEventListener('click',()=>{
+  if(state?.final_record){perform(newSession,'New session ready · click Run trial');return;}
+  perform(async()=>{const result=await action('experiment',{a_ul_min:validNumber('flow-a'),b_ul_min:validNumber('flow-b'),settle_s:validNumber('settle'),label:'Manual trial'});if(result.status!=='ok')throw Error('Interlock triggered: '+result.interlock);});
+});
 $('advance').addEventListener('click',()=>perform(()=>action('advance',{seconds:10})));
 $('clog').addEventListener('click',()=>perform(()=>action('inject_clog',{factor:6}),'Clog ×6 injected'));
 $('clear').addEventListener('click',()=>perform(()=>action('inject_clog',{factor:1}),'Clog cleared · reset required'));

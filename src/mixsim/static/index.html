@@ -8,12 +8,18 @@
 <aside>
 <div class="section-label">SETUP</div><h1>Color matching</h1>
 <label for="target">Target · A fraction<strong id="target-label">68%</strong></label><input id="target" type="range" min="0" max="100" value="68"><div class="range-labels"><span>BLUE / B</span><span>AMBER / A</span></div>
-<div class="row"><div><label for="seed">Seed</label><input id="seed" type="number" min="0" max="4294967295" step="1" value="42"></div><div><label for="trials">Trials</label><input id="trials" type="number" min="1" max="20" value="10"></div></div>
+<div class="row"><div><label for="seed">Seed</label><input id="seed" type="number" min="0" max="4294967295" step="1" value="42"></div><div><label for="settle">Run duration · s</label><input id="settle" type="number" min="1" max="600" value="60"></div></div>
+<button id="new" class="button secondary full">New session</button><p id="session-hint" class="footnote" role="status"></p>
+<section class="manual-controls" aria-label="Manual controls"><div class="section-label">MANUAL CONTROL</div>
+<div class="row"><div><label for="flow-a">Pump A · µL/min</label><input id="flow-a" type="number" min="0" step="any" value="200"></div><div><label for="flow-b">Pump B · µL/min</label><input id="flow-b" type="number" min="0" step="any" value="200"></div></div>
+<div class="manual-total">Total · <strong id="manual-total">400</strong> µL/min</div>
+<button id="manual" class="button primary full">▶ Run trial</button>
+<div class="row manual-actions"><button id="write" class="button secondary">Set flows</button><button id="advance" class="button secondary">Advance +10 s</button></div></section>
+<details id="automatic-controls" class="controls-details"><summary>Automatic control · baseline</summary>
+<div class="row"><div><label for="trials">Trials</label><input id="trials" type="number" min="1" max="20" step="1" value="1"></div><div><label for="total">Auto total · µL/min</label><input id="total" type="number" min="1" max="1000" value="400"></div></div>
 <label for="planner">Controller · baseline</label><select id="planner"><option value="feedback">Feedback</option><option value="random">Random</option></select>
-<div class="row"><div><label for="total">Total flow · µL/min</label><input id="total" type="number" min="1" max="1000" value="400"></div><div><label for="settle">Settling time · s</label><input id="settle" type="number" min="1" max="600" value="60"></div></div>
-<button id="new" class="button secondary full">New session</button><button id="run" class="button primary full">▶ Run campaign</button><button id="step" class="button secondary full">Single step</button>
-<details class="controls-details"><summary>Manual controls</summary><div class="row"><div><label for="flow-a">Pump A · µL/min</label><input id="flow-a" type="number" min="0" value="200"></div><div><label for="flow-b">Pump B · µL/min</label><input id="flow-b" type="number" min="0" value="200"></div></div><div class="row"><button id="write" class="button secondary">Set flows</button><button id="manual" class="button secondary">Run trial</button></div><button id="advance" class="button text full">Advance +10 s</button>
-</details><p class="footnote">Export before reset.</p>
+<button id="run" class="button primary full">▶ Run campaign</button><button id="step" class="button secondary full">Single step</button>
+</details><p class="footnote">Export before starting a new session.</p>
 </aside>
 <section class="workspace">
 <div class="workspace-heading"><div><div class="section-label">WORKSPACE</div><h2>Mixing bench</h2></div><div class="clock"><span>VIRTUAL TIME</span><strong id="time">0.0 s</strong></div></div>

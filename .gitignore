@@ -12,4 +12,5 @@ tmp/
 !.env.example
 reference/*.docx
 reference/*.pdf
+local-notes/
 
